@@ -93,10 +93,10 @@ RUN mkdir -p /data/db /data/configdb
 # apt installs tzdata, will drop into interactive time zone configuratin without this env var
 ENV TINI_VERSION=v0.19.0
 ENV DEBIAN_FRONTEND=noninteractive
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /tini.asc
 RUN    apt-get update \
     && apt-get --yes install --no-install-recommends curl gpg \
-    && curl -L -o /tini https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini \
-    && curl -L -o /tini.asc https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc \
     && gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
     && gpg --batch --verify /tini.asc /tini \
     && apt-get purge --yes curl gpg \
