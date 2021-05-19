@@ -1,0 +1,5 @@
+keys/*
+secrets/*
+**/tini
+**/tini.asc
+**/**.swp
