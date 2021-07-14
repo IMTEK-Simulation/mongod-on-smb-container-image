@@ -35,8 +35,13 @@ set -Eeuox pipefail
 echo "Running entrypoint as $(whoami), uid=$(id -u), gid=$(id -g)."
 
 echo ""
+echo "Mounting smb share '//${SMB_HOST:-sambaserver}/${SMB_SHARE:-sambashare}':"
+mount -t cifs -o rw,iocharset=utf8,credentials=/run/secrets/smb-credentials,id=mongodb,gid=mongodb,file_mode=0600,dir_mode=0700 "//${SMB_HOST:-sambaserver}/${SMB_SHARE:-sambashare}" /data/db
+
+echo ""
 echo "Current mounts:"
 mount
+
 echo ""
 echo "Content at '/data/db':"
 ls -lha /data/db
@@ -55,6 +60,9 @@ term_handler() {
     kill -SIGTERM "$pid"
     wait "$pid"
   fi
+
+  umount /data/db
+
   echo "Shut down gracefully."
   exit 143; # 128 + 15 -- SIGTERM
 }
@@ -69,6 +77,7 @@ pid="$!"
 wait "$pid"
 ret="$?"
 echo "docker-entrypoint-upstream.sh ${@} ended with return code ${ret}".
+umount /data/db
 exit "${ret}"
 
 # http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_12_02.html

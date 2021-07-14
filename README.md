@@ -11,6 +11,27 @@ Author: Johannes Hoermann, johannes.hoermann@imtek.uni-freiburg.de
 Mount an smb share holding raw db within mongo conatiner and publish
 standard port 27017 via TLS/SSL encryption globally.
 
+## Usage
+
+Launch mongod service with
+
+```shell
+docker run imteksim/mongod-on-smb:latest
+```
+
+See https://hub.docker.com/_/mongo and https://github.com/docker-library/mongo for upstream details.
+
+## Envionment variables
+
+* `SMB_HOST` - name of host providing smb share, default: `sambaserver`
+* `SMB_SHARE` - name of share, default: `sambashare`
+
+## Secrets
+
+`/run/secrets/tls_key_cert.pem` - key and certificate for mongod
+`/run/secrets/rootCA.pem` - root CA
+`/run/secrets/smb-credentials`- credentials file for smb share, see i.e. mount.cifs(8), https://www.samba.org/~ab/output/htmldocs/manpages-3/mount.cifs.8.html
+
 ## Setup with Podman
 
 Podman runs without elevated privileges. The `cifs` driver for smb shares requires
