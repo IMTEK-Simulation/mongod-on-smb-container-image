@@ -51,7 +51,9 @@ ENV GPG_KEYS E162F504A20CDF15827F718D4B7C549A058F8B6B
 RUN set -ex; \
     export GNUPGHOME="$(mktemp -d)"; \
     for key in $GPG_KEYS; do \
-        gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
+        gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" \
+          || gpg --batch --keyserver pgp.mit.edu --recv-keys "$key" \
+          || gpg --batch --keyserver keyserver.pgp.com --recv-keys "$key"; \
     done; \
     gpg --batch --export $GPG_KEYS > /etc/apt/trusted.gpg.d/mongodb.gpg; \
     command -v gpgconf && gpgconf --kill all || :; \
@@ -95,9 +97,17 @@ ENV TINI_VERSION=v0.19.0
 ENV DEBIAN_FRONTEND=noninteractive
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /tini.asc
-RUN    gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
-    && gpg --batch --verify /tini.asc /tini \
-    && chmod +x /tini
+ENV GPG_KEYS 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7
+RUN set -ex; \
+    export GNUPGHOME="$(mktemp -d)"; \
+    for key in $GPG_KEYS; do \
+           gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$key" \
+        || gpg --batch --keyserver pgp.mit.edu --recv-keys "$key" \
+        || gpg --batch --keyserver keyserver.pgp.com --recv-keys "$key"; \
+    done; \
+    gpg --batch --verify /tini.asc /tini \
+    && chmod +x /tini \
+    && rm -r "$GNUPGHOME"
 
 # NOTE: curl and gpg are obsolete now
 
