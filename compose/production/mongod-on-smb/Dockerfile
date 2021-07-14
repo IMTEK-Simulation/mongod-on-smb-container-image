@@ -125,6 +125,11 @@ RUN echo $TZ > /etc/timezone && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# install cifs
+RUN apt-get update && apt-get install -y cifs-utils && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
 ENTRYPOINT ["/tini", "--", "docker-entrypoint.sh"]
 
 EXPOSE 27017
