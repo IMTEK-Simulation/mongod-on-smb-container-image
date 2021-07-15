@@ -16,7 +16,7 @@ standard port 27017 via TLS/SSL encryption globally.
 Launch mongod service with
 
 ```shell
-docker run imteksim/mongod-on-smb:latest
+docker run --privileged --cap-add SYS_ADMIN imteksim/mongod-on-smb:latest
 ```
 
 See https://hub.docker.com/_/mongo and https://github.com/docker-library/mongo for upstream details.
