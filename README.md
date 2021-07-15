@@ -1,6 +1,6 @@
 # IMTEK Simulation MongoDB on SMB
 
-[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/imteksim/mongod-on-smb?label=dockerhub)](https://hub.docker.com/repository/docker/imteksim/mongod-on-smb) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/IMTEK-Simulation/mongod-on-smb-container-image/publish)](https://github.com/IMTEK-Simulation/mongod-on-smb-container-image/actions?query=workflow%3Apublish)
+[![Docker Image Version (latest semver)](https://img.shields.io/docker/v/imteksim/mongod-on-smb?label=dockerhub&sort=semver)](https://hub.docker.com/repository/docker/imteksim/mongod-on-smb) [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/IMTEK-Simulation/mongod-on-smb-container-image/publish)](https://github.com/IMTEK-Simulation/mongod-on-smb-container-image/actions?query=workflow%3Apublish)
 
 Copyright 2020, 2021 IMTEK Simulation, University of Freiburg
 
