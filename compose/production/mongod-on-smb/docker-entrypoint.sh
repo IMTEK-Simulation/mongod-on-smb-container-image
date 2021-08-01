@@ -27,7 +27,7 @@
 # Summary:
 #
 # This entrypoint wraps around the upstream image's docker-entrypoint.sh
-#Ãand takes care of propery providing an smb share the actual mongodb
+# and takes care of propery providing an smb share the actual mongodb
 # resides on.
 #
 set -Eeuox pipefail
@@ -36,7 +36,9 @@ echo "Running entrypoint as $(whoami), uid=$(id -u), gid=$(id -g)."
 
 echo ""
 echo "Mounting smb share '//${SMB_HOST:-sambaserver}/${SMB_SHARE:-sambashare}':"
-mount -t cifs -o rw,iocharset=utf8,credentials=/run/secrets/smb-credentials,file_mode=0600,dir_mode=0700 "//${SMB_HOST:-sambaserver}/${SMB_SHARE:-sambashare}" /data/db
+mount -t cifs -o ${SMB_MOUNT_OPTIONS:-rw,iocharset=utf8,vers=1.0,cache=none,credentials=/run/secrets/smb-credentials,file_mode=0600,dir_mode=0700} "//${SMB_HOST:-sambaserver}/${SMB_SHARE:-sambashare}" /data/db
+# Server-side unix extensions only available with CIFS for smb v1.0, but considered insecure
+# see https://wiki.ubuntuusers.de/mount.cifs/#Besitz-und-Zugriffsrechte
 
 echo ""
 echo "Current mounts:"

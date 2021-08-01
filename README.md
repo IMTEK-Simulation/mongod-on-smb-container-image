@@ -25,6 +25,7 @@ See https://hub.docker.com/_/mongo and https://github.com/docker-library/mongo f
 
 * `SMB_HOST` - name of host providing smb share, default: `sambaserver`
 * `SMB_SHARE` - name of share, default: `sambashare`
+* `SMB_MOUNT_OPTIONS` - CIFS mount options for smb share, default: `rw,iocharset=utf8,vers=1.0,cache=none,credentials=/run/secrets/smb-credentials,file_mode=0600,dir_mode=0700`
 
 ## Secrets
 
